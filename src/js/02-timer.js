@@ -2,21 +2,21 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const timer = document.querySelector('.timer');
-console.log(timer);
+// console.log(timer);
 const fields = document.querySelectorAll('.field');
-console.log('fields', fields);
+// console.log('fields', fields);
 
 const values = document.querySelectorAll('.value');
-console.log('values', values);
+// console.log('values', values);
 
 const labels = document.querySelectorAll('.label');
-console.log('labels', labels);
+// console.log('labels', labels);
 
 const startButton = document.querySelector('[data-start]');
-console.log('startButton', startButton);
+// console.log('startButton', startButton);
 
-const flatpickr = flatpickr('#datetime-picker');
-console.log('flatpickr', flatpickr);
+const datepicker = flatpickr('#datetime-picker');
+// console.log('flatpickr', flatpickr);
 
 onChange();
 
