@@ -1,3 +1,6 @@
+import * as Notiflix from 'notiflix';
+import 'notiflix/dist/notiflix-3.2.6.min.css';
+
 // Этот код представляет собой создание и обработку нескольких промисов в соответствии с параметрами, введенными пользователем в форме.Как только все промисы завершатся(успешно или с ошибкой), результаты будут выведены в консоль.
 // 1. Находим форму в HTML документе по классу "form".
 const form = document.querySelector('.form');
@@ -29,11 +32,13 @@ form.addEventListener('submit', function (e) {
     createPromise(position, delay)
       // 8. Если промис выполняется успешно, выполнится этот блок кода.
       .then(({ position, delay }) => {
-        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
       // 9. Если промис отклоняется, выполнится этот блок кода.
       .catch(({ position, delay }) => {
-        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+        Notiflix.Notify.failure(
+          `❌ Rejected promise ${position} in ${delay}ms`
+        );
       });
   }
 });

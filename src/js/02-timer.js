@@ -1,43 +1,42 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import * as Notiflix from 'notiflix';
+import 'notiflix/dist/notiflix-3.2.6.min.css';
 
+// для стилизации
 const timer = document.querySelector('.timer');
-// console.log(timer);
 const fields = document.querySelectorAll('.field');
-// console.log('fields', fields);
-
 const values = document.querySelectorAll('.value');
-// console.log('values', values);
-
 const labels = document.querySelectorAll('.label');
-// console.log('labels', labels);
 
+// кнопка
 const startButton = document.querySelector('[data-start]');
-// console.log('startButton', startButton);
 
-const datepicker = flatpickr('#datetime-picker');
-// console.log('flatpickr', flatpickr);
+// Получаем элементы с классом "value" и атрибутами data
+const daysElement = document.querySelector('.value[data-days]');
+const hoursElement = document.querySelector('.value[data-hours]');
+const minutesElement = document.querySelector('.value[data-minutes]');
+const secondsElement = document.querySelector('.value[data-seconds]');
 
-onChange();
+const input = document.querySelector('#datetime-picker');
+
+flatpickr(input);
+
+startButton.disabled = true;
 
 const date = new Date();
-// конечная дата
-let selectedDates;
-console.log('selectedDates', selectedDates);
 
-// текущая дата
-const currentDate = date.getTime();
-console.log(convertMs(currentDate));
+function onChange() {}
+onChange();
 
-function onChange() {
-  startButton.isActive = false;
-}
 function onClose(selectedDates) {
   selectedDates.forEach(selectedDate => {
     if (selectedDate.getTime() < Date.now()) {
-      window.alert('Please choose a date in the future');
+      Notiflix.Notify.warning('Please choose a date in the future');
+
+      // window.alert('Please choose a date in the future');
     } else {
-      startButton.isActive = true;
+      startButton.disabled = false;
     }
   });
 }
@@ -70,26 +69,44 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
 startButton.addEventListener('click', onClick);
 
 function onClick() {
-  const id = setInterval(() => {
-    result -= 1;
-    timer.textContent = result;
-    if (!result) {
-      clearInterval(id);
+  const setIntervalId = setInterval(() => {
+    const selectedDate = new Date(input.value);
+    console.log('selectedDate', selectedDate);
+
+    const currentTime = selectedDate - Date.now();
+    console.log(currentTime);
+
+    const final = convertMs(currentTime);
+    console.log('final', final);
+
+    daysElement.textContent = addLeadingZero(final.days);
+    hoursElement.textContent = addLeadingZero(final.hours);
+    minutesElement.textContent = addLeadingZero(final.minutes); //final['minutes'] тоже самое
+    secondsElement.textContent = addLeadingZero(final.seconds);
+
+    if (
+      daysElement.textContent === '0' &&
+      hoursElement.textContent === '0' &&
+      minutesElement.textContent === '0' &&
+      secondsElement.textContent === '0'
+    ) {
+      clearInterval(setIntervalId);
+    }
+
+    if (!selectedDate) {
+      clearInterval(setIntervalId);
     }
   }, 1000);
+  startButton.disabled = true;
 }
 
 function addLeadingZero(value) {
-  padStart();
+  return value.toString().padStart(2, '0');
 }
-
 // СТИЛИ
 // Применяем стили к элементу .timer
 timer.style.display = 'flex';
