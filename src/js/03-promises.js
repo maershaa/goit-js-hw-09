@@ -19,7 +19,7 @@ form.addEventListener('submit', function (e) {
   const amount = parseInt(document.querySelector('input[name="amount"]').value);
 
   // Код проверяет, если параметры, такие как step, delay, и amount, не удовлетворяют определенным условиям (например, step и delay не могут быть отрицательными, а amount должно быть больше нуля), то он выводит уведомление "❌ Rejected promise", указывая, что промис будет отклонен из-за некорректных параметров.
-  if (step < 0 || delay < 0 || amount <= 0) {
+  if (step < 0 || firstDelay < 0 || amount <= 0) {
     Notiflix.Notify.failure(`❌ Rejected promise `);
   } else {
     // 5. Создаем промисы в цикле в соответствии с введенными параметрами.
