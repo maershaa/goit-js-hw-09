@@ -138,6 +138,7 @@ function onClick() {
   startButton.disabled = true; // Отключение кнопки "Start"
   input.readOnly = true; // Запрет редактирования поля
   input.value.disabled = true;
+  input.disabled = true; // Запретить редактирование поля ввода
 }
 
 // Функция для добавления ведущего нуля
